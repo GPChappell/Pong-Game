@@ -16,7 +16,7 @@ export default class Game {
 
 		//Paddle Configuration
 		this.paddleWidth = 8;
-		this.paddleHeight = 56;
+		this.paddleHeight = 112;
 		this.boardGap = 10;
 
 		//Create Player 1

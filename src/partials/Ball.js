@@ -23,18 +23,18 @@ export default class Ball {
     this.y = this.boardHeight / 2;
     
     //Start vector
-    this.vy = 0;
+    this.vy = 2;
 
     //Prevent ball being trapped in middle of board if vy is set to 0.
-    while( this.vy === 0 ) {
-      this.vy = Math.floor(Math.random() * 10 - 5);
-    }
-    this.vx = this.direction * (6 - Math.abs(this.vy));
+    // while( this.vy === 0 ) {
+    //   this.vy = Math.floor(Math.random() * 10 - 5);
+    // }
+    this.vx = this.direction * (10 - Math.abs(this.vy));
   }
 
   goal( player ) {
     player.score++;
-    console.log(player.score)
+    // console.log(player.score) 
   }
 
   wallCollision() {
@@ -63,7 +63,22 @@ export default class Ball {
       && (this.y >= topY && this.y <= bottomY) //Ball within Paddle height
       ) 
       {
-        this.vx = -this.vx;
+        this.vx = -this.vx * ((((this.y - (topY + player2.height/2) ) / (player2.height/2))));
+        this.vy = Math.abs(this.vy) / ((((this.y - (topY + player2.height/2) ) / (player2.height/2))));
+
+        //Y component of return is based how near the middle of the paddle the ball struck
+        console.log(`TopY: ${topY}`);
+        console.log(`PlayerHeight: ${player2.height}`);
+        console.log(`PlayerHeight/2: ${player2.height/2}`); 
+        console.log(`TopY+PlayerHeight/2: ${topY + player2.height/2}`);
+        console.log(`this.y: ${this.y}`);
+        console.log(`paddle middle - this.y: ${(topY + player2.height/2) - this.y }`);
+        console.log(`paddle middle - this.y as %: ${((topY + player2.height/2) - this.y)/(player2.height/2)}`);
+
+        console.log(this.vy); 
+        console.log(Math.abs(this.vy) ); 
+        console.log(Math.abs(this.vy) * (1 + (((this.y - (topY + player2.height/2) ) / (player2.height/2)))) );
+
         this.ping.play();
       }
 
