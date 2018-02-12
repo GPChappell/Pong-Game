@@ -23,15 +23,19 @@ export default class Ball {
     document.addEventListener('keydown', event => {
       switch (event.key) {
         case KEYS.lShift:
+        if ( this.served === false ) {
           this.served = true;
           this.vx = this.direction * 6;
-          this.vy = Math.abs(this.vx) * Math.tan( this.serve() * Math.PI/180 );
+          this.vy = this.serveY();
+        }
           break;
         case KEYS.left:
+        if ( this.served === false ) {
           this.served = true;
           this.vx = this.direction * 6;
-          this.vy = Math.abs(this.vx) * Math.tan( this.serve() * Math.PI/180 );
+          this.vy = this.serveY();
           break;
+        }
       }
     });
   } //END OF CONSTRUCTOR
@@ -63,9 +67,10 @@ export default class Ball {
     // this.vx = this.direction * 6;
   }
 
-  //Return a random number between -45 and 45
-  serve () {
-  return Math.ceil( ((Math.random()*100-10) - (Math.random()*100-10))/2 );
+  //Generate a random angle between -45 and 45 then calculate vy relative to vx to serve ball at that angle.
+  serveY () {
+    let serveAngle = Math.ceil( ((Math.random()*100-10) - (Math.random()*100-10))/2 );
+    return Math.abs(this.vx) * Math.tan( serveAngle * Math.PI/180 );
   }
 
   goal( player ) {
@@ -112,8 +117,7 @@ export default class Ball {
             let reboundAngle = 30 * ( ( this.y - (topY + player2.height/2) ) / (player2.height/2) )
             this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
           }
-        
-        this.ping.play();
+          this.ping.play();
       }
 
     }
@@ -138,7 +142,7 @@ export default class Ball {
           let reboundAngle = 30 * ( ( this.y - (topY + player1.height/2) ) / (player1.height/2) )
           this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
         }
-        this.ping.play();
+          this.ping.play();
       }
 
     }
@@ -149,11 +153,11 @@ export default class Ball {
 
     if ( this.served === false ) {
       if ( this.direction === 1 ) { 
-        this.x = player1.x + player1.width + this.radius;
+        this.x = player1.x + player1.width + this.radius + 1;
         this.y = player1.y + player1.height / 2;
       }
       else {
-        this.x = player2.x - this.radius;
+        this.x = player2.x - this.radius + 1;
         this.y = player2.y + player2.height / 2;    
       }
     }
