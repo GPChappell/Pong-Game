@@ -3,39 +3,73 @@ import Paddle from './Paddle';
 
 export default class Ball {
 
-  constructor(radius, boardWidth, boardHeight/*, x, y*/) {
+  constructor(radius, boardWidth, boardHeight, player1, player2/*, x, y*/) {
     this.radius = radius;
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
     // this.x = x; //Will use this later to spawn ball in specific location.
     // this.y = y;
+    this.served = false;
     this.direction = 1;
-    this.reset();
+    // this.reset( player1, player2 );
 
     this.ping = new Audio('public/sounds/pong-01.wav');
 
 
+    // document.addEventListener('keydown', event => {
+    //   console.log(event);
+    // });
+
+    document.addEventListener('keydown', event => {
+      switch (event.key) {
+        case KEYS.lShift:
+          this.served = true;
+          this.vx = this.direction * 6;
+          this.vy = Math.abs(this.vx) * Math.tan( this.serve() * Math.PI/180 );
+          break;
+        case KEYS.left:
+          this.served = true;
+          this.vx = this.direction * 6;
+          this.vy = Math.abs(this.vx) * Math.tan( this.serve() * Math.PI/180 );
+          break;
+      }
+    });
   } //END OF CONSTRUCTOR
 
-   reset() {
+   reset( player1, player2 ) {
+
+    this.served = false;
     //Start position
-    this.x = this.boardWidth / 2;
-    this.y = this.boardHeight / 2;
+    // let playerHasServed = false;
+
+    // while( !playerHasServed ) {
+    //   this.x = player1.x + player1.width;
+    //   this.y = player1.y + player1.height / 2;
+    // }
+    // while ( playerHasServed === false ) {
+      // this.x = player1.x + player1.width;
+      // this.y = player1.y + player1.height / 2;
+    // }
+    
     
     //Start vector
-    this.vy = 0;
+    // this.vy = 0;
 
     //Prevent ball being trapped in middle of board if vy is set to 0.
     // while( this.vy === 0 ) {
     //   this.vy = Math.floor(Math.random() * 10 - 5);
     // }
     // this.vx = this.direction * (10 - Math.abs(this.vy));
-    this.vx = this.direction * 6;
+    // this.vx = this.direction * 6;
+  }
+
+  //Return a random number between -45 and 45
+  serve () {
+  return Math.ceil( ((Math.random()*100-10) - (Math.random()*100-10))/2 );
   }
 
   goal( player ) {
     player.score++;
-    // console.log(player.score) 
   }
 
   wallCollision() {
@@ -113,8 +147,20 @@ export default class Ball {
 
   render(svg, player1, player2) {
 
-    this.x += this.vx;
-    this.y += this.vy;
+    if ( this.served === false ) {
+      if ( this.direction === 1 ) { 
+        this.x = player1.x + player1.width + this.radius;
+        this.y = player1.y + player1.height / 2;
+      }
+      else {
+        this.x = player2.x - this.radius;
+        this.y = player2.y + player2.height / 2;    
+      }
+    }
+    else {
+      this.x += this.vx;
+      this.y += this.vy;
+    }
 
     this.wallCollision();
     this.paddleCollision( player1, player2 );

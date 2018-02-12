@@ -50,7 +50,9 @@ export default class Game {
 		this.ball = new Ball(
 			this.ballRadius,
 			this.width,
-			this.height
+			this.height,
+			this.player1,
+			this.player2
 		)
 
 		//Create Score
