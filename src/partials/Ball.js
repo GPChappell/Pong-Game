@@ -23,13 +23,14 @@ export default class Ball {
     this.y = this.boardHeight / 2;
     
     //Start vector
-    this.vy = 2;
+    this.vy = 0;
 
     //Prevent ball being trapped in middle of board if vy is set to 0.
     // while( this.vy === 0 ) {
     //   this.vy = Math.floor(Math.random() * 10 - 5);
     // }
-    this.vx = this.direction * (10 - Math.abs(this.vy));
+    // this.vx = this.direction * (10 - Math.abs(this.vy));
+    this.vx = this.direction * 6;
   }
 
   goal( player ) {
@@ -53,7 +54,10 @@ export default class Ball {
   }
 
   paddleCollision( player1, player2 ) {
-    if( this.vx > 0) {
+    
+    
+    if( this.vx > 0) { //If travelling toward right
+      
       let paddle = player2.coordinates( player2.x, player2.y, player2.width, player2.height );
       let [leftX, rightX, topY, bottomY] = paddle;
 
@@ -63,22 +67,18 @@ export default class Ball {
       && (this.y >= topY && this.y <= bottomY) //Ball within Paddle height
       ) 
       {
-        this.vx = -this.vx * ((((this.y - (topY + player2.height/2) ) / (player2.height/2))));
-        this.vy = Math.abs(this.vy) / ((((this.y - (topY + player2.height/2) ) / (player2.height/2))));
+        this.vx = -this.vx
 
-        //Y component of return is based how near the middle of the paddle the ball struck
-        console.log(`TopY: ${topY}`);
-        console.log(`PlayerHeight: ${player2.height}`);
-        console.log(`PlayerHeight/2: ${player2.height/2}`); 
-        console.log(`TopY+PlayerHeight/2: ${topY + player2.height/2}`);
-        console.log(`this.y: ${this.y}`);
-        console.log(`paddle middle - this.y: ${(topY + player2.height/2) - this.y }`);
-        console.log(`paddle middle - this.y as %: ${((topY + player2.height/2) - this.y)/(player2.height/2)}`);
+        //Return angle determined by where it hits the paddle.
+        //If ball hits middle 1/3 then normal rebound (mirror angle)
+        //If ball hits outer 1/3 then rebound is calculated based on how far from center of paddle the ball hit up to a max of 30degrees
 
-        console.log(this.vy); 
-        console.log(Math.abs(this.vy) ); 
-        console.log(Math.abs(this.vy) * (1 + (((this.y - (topY + player2.height/2) ) / (player2.height/2)))) );
+          if ( this.y <= topY + player2.height/3 || this.y >= bottomY - player2.height/3 ) {
 
+            let reboundAngle = 30 * ( ( this.y - (topY + player2.height/2) ) / (player2.height/2) )
+            this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
+          }
+        
         this.ping.play();
       }
 
@@ -94,6 +94,16 @@ export default class Ball {
       ) 
       {
         this.vx = -this.vx;
+
+        //Return angle determined by where it hits the paddle.
+        //If ball hits middle 1/3 then normal rebound (mirror angle)
+        //If ball hits outer 1/3 then rebound is calculated based on how far from center of paddle the ball hit up to a max of 30degrees
+
+        if ( this.y <= topY + player1.height/3 || this.y >= bottomY - player1.height/3 ) {
+
+          let reboundAngle = 30 * ( ( this.y - (topY + player1.height/2) ) / (player1.height/2) )
+          this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
+        }
         this.ping.play();
       }
 
