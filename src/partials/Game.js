@@ -30,7 +30,7 @@ export default class Game {
 			KEYS.a,
 			KEYS.z,
 			'player1',
-			'#AD0000'
+			'white'
 		);
 
 		//Create Player 2
@@ -43,7 +43,7 @@ export default class Game {
 			KEYS.up,
 			KEYS.down,
 			'player2',
-			'#AD0000'
+			'black'
 		);
 
 		//Ball Configuration
@@ -59,8 +59,8 @@ export default class Game {
 		)
 
 		//Create Score
-		this.score1 = new Score( this.width / 2 - 50, 40, 40, 'red' );
-		this.score2 = new Score( this.width / 2 + 25, 40, 40, 'blue' );
+		this.score1 = new Score( this.width / 2 - 50, 40, 40, 'white' );
+		this.score2 = new Score( this.width / 2 + 25, 40, 40, 'black' );
 
 		//Create Goal Text
 		this.goal = new Text( this.width / 2, this.height / 2, 100 );

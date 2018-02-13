@@ -100,9 +100,9 @@ h1 {
   background-image:
   linear-gradient(
     to right,
-    #ff2626,
-    white,
-    #3535ff
+    black 25%,
+    #4e4e4e,
+    white 70%
   );
 }
 

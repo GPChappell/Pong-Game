@@ -15,11 +15,10 @@ export default class Ball {
     // this.reset( player1, player2 );
     this.goalScored = false;
     this.ping = new Audio('public/sounds/pong-01.wav');
+    this.ping2 = new Audio('public/sounds/pong-02.wav');
+    this.ping3 = new Audio('public/sounds/pong-03.wav');
+    this.ping4 = new Audio('public/sounds/pong-04.wav');
 
-
-    // document.addEventListener('keydown', event => {
-    //   console.log(event);
-    // });
 
     document.addEventListener('keydown', event => {
       switch (event.key) {
@@ -44,28 +43,6 @@ export default class Ball {
    reset( player1, player2 ) {
 
     this.served = false;
-    //Start position
-    // let playerHasServed = false;
-
-    // while( !playerHasServed ) {
-    //   this.x = player1.x + player1.width;
-    //   this.y = player1.y + player1.height / 2;
-    // }
-    // while ( playerHasServed === false ) {
-      // this.x = player1.x + player1.width;
-      // this.y = player1.y + player1.height / 2;
-    // }
-    
-    
-    //Start vector
-    // this.vy = 0;
-
-    //Prevent ball being trapped in middle of board if vy is set to 0.
-    // while( this.vy === 0 ) {
-    //   this.vy = Math.floor(Math.random() * 10 - 5);
-    // }
-    // this.vx = this.direction * (10 - Math.abs(this.vy));
-    // this.vx = this.direction * 6;
   }
 
   //Generate a random angle between -45 and 45 then calculate vy relative to vx to serve ball at that angle.
@@ -76,7 +53,6 @@ export default class Ball {
 
   goal( player ) {
     player.score++;
-    // console.log( player.player );
     this.goalScored = true;
   }
 
@@ -88,15 +64,17 @@ export default class Ball {
 
       if( hitTop || hitBottom ) {
         this.vy = -this.vy;
+        this.ping2.play();
       }
       else if ( hitLeft || hitRight ){
-        // GOAL RESPONSE
-        this.vx = -this.vx;
+        this.ping4.play();
+        // this.vx = -this.vx;
       }
   }
 
   ballColor() {
-    return `rgb(${Math.floor( (this.x/this.boardWidth)*255 ) },50,${Math.floor( 255 - ((this.x/this.boardWidth)*255) ) })`;
+    let rbgValue = Math.floor( 255 - ((this.x/this.boardWidth)*255) );
+    return `rgb(${rbgValue},${rbgValue},${rbgValue})`;
   }
 
 
@@ -151,7 +129,7 @@ export default class Ball {
           let reboundAngle = 30 * ( ( this.y - (topY + player1.height/2) ) / (player1.height/2) )
           this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
         }
-          this.ping.play();
+          this.ping3.play();
       }
 
     }
@@ -186,7 +164,6 @@ export default class Ball {
     ball.setAttributeNS( null, 'fill', this.ballColor() );
     svg.appendChild(ball);    
 
-    console.log( this.ballColor() ); 
 
     const rightGoal = this.x + this.radius >= this.boardWidth;
     const leftGoal = this.x - this.radius <= 0;
