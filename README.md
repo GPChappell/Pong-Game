@@ -21,7 +21,10 @@ A basic pong game using SVGs.
 **Player 1:**
 * a: up
 * z: down
+* Left Shift: launch ball
+
 
 **Player 2:**
 * ▲ : up
 * ▼: down
+* ◄: Launch Ball
