@@ -1,5 +1,6 @@
 import { SVG_NS, KEYS } from '../settings';
 import Paddle from './Paddle';
+import Text from './Text';
 
 export default class Ball {
 
@@ -12,7 +13,7 @@ export default class Ball {
     this.served = false;
     this.direction = 1;
     // this.reset( player1, player2 );
-
+    this.goalScored = false;
     this.ping = new Audio('public/sounds/pong-01.wav');
 
 
@@ -32,7 +33,7 @@ export default class Ball {
         case KEYS.left:
         if ( this.served === false ) {
           this.served = true;
-          this.vx = this.direction * 6;
+          this.vx = this.direction * 8;
           this.vy = this.serveY();
           break;
         }
@@ -75,6 +76,8 @@ export default class Ball {
 
   goal( player ) {
     player.score++;
+    // console.log( player.player );
+    this.goalScored = true;
   }
 
   wallCollision() {
@@ -170,6 +173,7 @@ export default class Ball {
     this.paddleCollision( player1, player2 );
 
     let ball = document.createElementNS(SVG_NS, 'circle');
+    ball.setAttribute('id', 'ball');
     ball.setAttributeNS( null, 'cx', this.x );
     ball.setAttributeNS( null, 'cy', this.y );
     ball.setAttributeNS( null, 'r', this.radius );
@@ -181,13 +185,17 @@ export default class Ball {
 
     if ( rightGoal ) {
       this.goal( player1 );
+      this.scoringPlayer = 'p1';
       this.direction = -1;
       this.reset();
     } else if ( leftGoal ) {
       this.goal( player2 );
+      this.scoringPlayer = 'p2';
       this.direction = 1;
       this.reset();
     }
     
   }
 }
+
+

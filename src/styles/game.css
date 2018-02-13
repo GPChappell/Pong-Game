@@ -84,3 +84,31 @@ h1 {
   margin-bottom: 1rem; 
   text-align: center;
 }
+ 
+#goal  {
+  animation-name: burst-fade;
+  animation-duration: 1.25s; 
+  animation-timing-function: ease-in-out; 
+  animation-delay: 0;
+  animation-direction: normal;
+  animation-play-state: running;
+  transform-origin: center center;
+}
+
+@keyframes burst-fade {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0;
+    fill: white;  
+  }
+  100% {
+    opacity: 0;
+    font-size: 200px;
+    
+  }
+}

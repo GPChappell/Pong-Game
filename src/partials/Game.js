@@ -3,6 +3,7 @@ import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import Score from './Score';
+import Text from './Text';
 
 export default class Game {
 
@@ -15,7 +16,7 @@ export default class Game {
 		this.board = new Board(this.width, this.height);
 
 		//Paddle Configuration
-		this.paddleWidth = 8;
+		this.paddleWidth = 10;
 		this.paddleHeight = 112;
 		this.boardGap = 10;
 
@@ -56,9 +57,11 @@ export default class Game {
 		)
 
 		//Create Score
-		this.score1 = new Score( this.width / 2 - 50, 30, 30 );
-		this.score2 = new Score( this.width / 2 + 25, 30, 30 );
+		this.score1 = new Score( this.width / 2 - 50, 40, 40, 'red' );
+		this.score2 = new Score( this.width / 2 + 25, 40, 40, 'blue' );
 
+		//Create Goal Text
+		this.goal = new Text( this.width / 2, this.height / 2, 100 );
 
 
 		//Pause game
@@ -73,7 +76,7 @@ export default class Game {
 
 	render() {
 
-		if( this.pause ) {
+		if( this.pause || this.ball.goalScored === true ) {
       return;
 		}
 		 
@@ -90,6 +93,12 @@ export default class Game {
 		this.ball.render(svg, this.player1, this.player2 );
 		this.score1.render( svg, this.player1.score );
 		this.score2.render( svg, this.player2.score );
+		
+		if( this.ball.goalScored === true) {
+			this.goal.render( svg, 'GOAL!', this.ball );
+		}
+		
+
 		this.gameElement.appendChild(svg);
 
 	}
