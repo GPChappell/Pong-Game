@@ -29,7 +29,8 @@ export default class Game {
 			((this.height - this.paddleHeight) / 2),
 			KEYS.a,
 			KEYS.z,
-			'player1'
+			'player1',
+			'#AD0000'
 		);
 
 		//Create Player 2
@@ -41,7 +42,8 @@ export default class Game {
 			((this.height - this.paddleHeight) / 2),
 			KEYS.up,
 			KEYS.down,
-			'player2'
+			'player2',
+			'#AD0000'
 		);
 
 		//Ball Configuration

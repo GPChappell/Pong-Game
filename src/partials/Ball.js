@@ -95,6 +95,12 @@ export default class Ball {
       }
   }
 
+  ballColor() {
+    return `rgb(${Math.floor( (this.x/this.boardWidth)*255 ) },50,${Math.floor( 255 - ((this.x/this.boardWidth)*255) ) })`;
+  }
+
+
+
   paddleCollision( player1, player2 ) {
     
     
@@ -177,8 +183,10 @@ export default class Ball {
     ball.setAttributeNS( null, 'cx', this.x );
     ball.setAttributeNS( null, 'cy', this.y );
     ball.setAttributeNS( null, 'r', this.radius );
-    ball.setAttributeNS( null, 'fill', 'white' );
+    ball.setAttributeNS( null, 'fill', this.ballColor() );
     svg.appendChild(ball);    
+
+    console.log( this.ballColor() ); 
 
     const rightGoal = this.x + this.radius >= this.boardWidth;
     const leftGoal = this.x - this.radius <= 0;

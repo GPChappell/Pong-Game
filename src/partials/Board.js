@@ -9,11 +9,13 @@ export default class Board {
 
     // Perimeter
     let rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('id', 'gameBoard');
     rect.setAttributeNS(null, 'width', this.width);
     rect.setAttributeNS(null, 'height', this.height);
-    rect.setAttributeNS(null, 'fill', '#353535' );
+    // rect.setAttributeNS(null, 'fill', '#353535' );
+    rect.setAttributeNS(null, 'fill-opacity', '0' );
     rect.setAttributeNS(null, 'stroke', 'black' );
-    rect.setAttributeNS(null, 'stroke-width', '5' );
+    rect.setAttributeNS(null, 'stroke-width', '10' );
     
     // Middle Line 
     let line = document.createElementNS(SVG_NS, 'line');

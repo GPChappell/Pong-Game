@@ -1,7 +1,7 @@
 import { SVG_NS } from '../settings';
 
 export default class Paddle {
-  constructor(boardHeight, width, height, x, y, up, down, player) {
+  constructor(boardHeight, width, height, x, y, up, down, player, color) {
     this.boardHeight = boardHeight;
     this.width = width;
     this.height = height;
@@ -9,6 +9,7 @@ export default class Paddle {
     this.y = y;
     this.speed = 6;
     this.score = 0;
+    this.color = color;
 
     this.player = player;
     this.keyState = {};
@@ -43,7 +44,7 @@ export default class Paddle {
     let rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttributeNS( null, 'width', this.width );
     rect.setAttributeNS( null, 'height', this.height );
-    rect.setAttributeNS( null, 'fill', 'white' );
+    rect.setAttributeNS( null, 'fill', this.color );
     rect.setAttributeNS( null, 'x', this.x );
     rect.setAttributeNS( null, 'y', this.y );
 
