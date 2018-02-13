@@ -1,7 +1,8 @@
 import { SVG_NS } from '../settings';
+import Ball from './Ball';
 
 export default class Paddle {
-  constructor(boardHeight, width, height, x, y, up, down, player, color) {
+  constructor(boardHeight, width, height, x, y, up, down, player, color ) {
     this.boardHeight = boardHeight;
     this.width = width;
     this.height = height;
@@ -39,11 +40,11 @@ export default class Paddle {
     return [leftX, rightX, topY, bottomY];
   }
 
-  render(svg) {
+  render(svg, ball) {
 
     let rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttributeNS( null, 'width', this.width );
-    rect.setAttributeNS( null, 'height', this.height );
+    rect.setAttributeNS( null, 'height', Math.max(this.height/2, this.height - ball.numberOfPaddleHits ) );
     rect.setAttributeNS( null, 'fill', this.color );
     rect.setAttributeNS( null, 'x', this.x );
     rect.setAttributeNS( null, 'y', this.y );

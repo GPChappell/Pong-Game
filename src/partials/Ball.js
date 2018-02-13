@@ -1,6 +1,4 @@
 import { SVG_NS, KEYS } from '../settings';
-import Paddle from './Paddle';
-import Text from './Text';
 
 export default class Ball {
 
@@ -11,6 +9,7 @@ export default class Ball {
     this.served = false;
     this.direction = 1;
     this.goalScored = false;
+    this.numberOfPaddleHits = 0;
     this.ping = new Audio('public/sounds/pong-01.wav');
     this.ping2 = new Audio('public/sounds/pong-02.wav');
     this.ping3 = new Audio('public/sounds/pong-03.wav');
@@ -22,7 +21,7 @@ export default class Ball {
         case KEYS.lShift:
         if ( this.served === false ) {
           this.served = true;
-          this.vx = this.direction * 6;
+          this.vx = this.direction * 8;
           this.vy = this.serveY();
         }
           break;
@@ -38,7 +37,7 @@ export default class Ball {
   } //END OF CONSTRUCTOR
 
    reset( player1, player2 ) {
-
+    this.numberOfPaddleHits = 0;
     this.served = false;
   }
 
@@ -89,11 +88,19 @@ export default class Ball {
       && (this.y >= topY && this.y <= bottomY) //Ball within Paddle height
       ) 
       {
-        this.vx = -this.vx
+        this.numberOfPaddleHits++;
+        if( this.numberOfPaddleHits % 5 === 0 ){
+          this.vx = -this.vx * 1.07;
+        }
+        else {
+          this.vx = -this.vx;
+        }
+        
+        
 
-        //Return angle determined by where it hits the paddle.
+        //Return angle determined by where ball hits the paddle.
         //If ball hits middle 1/3 then normal rebound (mirror angle)
-        //If ball hits outer 1/3 then rebound is calculated based on how far from center of paddle the ball hit up to a max of 30degrees
+        //If ball hits outer 1/3 then rebound is based on how far from center of paddle the ball hit up to a max of 30degrees
 
           if ( this.y <= topY + player2.height/3 || this.y >= bottomY - player2.height/3 ) {
 
@@ -114,14 +121,18 @@ export default class Ball {
       && (this.y >= topY && this.y <= bottomY) //Ball within Paddle height
       ) 
       {
-        this.vx = -this.vx;
+        this.numberOfPaddleHits++;
+        if( this.numberOfPaddleHits % 5 === 0 ){
+          this.vx = -this.vx * 1.07;
+        }
+        else {
+          this.vx = -this.vx;
+        }
 
         //Return angle determined by where it hits the paddle.
         //If ball hits middle 1/3 then normal rebound (mirror angle)
         //If ball hits outer 1/3 then rebound is calculated based on how far from center of paddle the ball hit up to a max of 30degrees
-
         if ( this.y <= topY + player1.height/3 || this.y >= bottomY - player1.height/3 ) {
-
           let reboundAngle = 30 * ( ( this.y - (topY + player1.height/2) ) / (player1.height/2) )
           this.vy = Math.abs(this.vx) * Math.tan( reboundAngle * Math.PI/180 );
         }

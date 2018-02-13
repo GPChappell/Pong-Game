@@ -90,8 +90,8 @@ export default class Game {
 		svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
 
 		this.board.render(svg);
-		this.player1.render(svg);
-		this.player2.render(svg);
+		this.player1.render(svg, this.ball );
+		this.player2.render(svg, this.ball );
 		this.ball.render(svg, this.player1, this.player2 );
 		this.score1.render( svg, this.player1.score );
 		this.score2.render( svg, this.player2.score );
