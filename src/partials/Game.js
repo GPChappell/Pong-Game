@@ -65,6 +65,9 @@ export default class Game {
 		//Create Goal Text
 		this.goal = new Text( this.width / 2, this.height / 2, 100 );
 
+		//Create Goal Text
+		this.gameOver = new Text( this.width / 2, this.height / 2, 100 );
+
 
 		//Pause game
 		document.addEventListener('keydown', event => {
@@ -78,7 +81,9 @@ export default class Game {
 
 	render() {
 
-		if( this.pause || this.ball.goalScored === true ) {
+		if( this.pause 
+			|| this.ball.goalScored === true 
+			|| this.ball.wonGame !== "" ) {
       return;
 		}
 		 
@@ -96,8 +101,16 @@ export default class Game {
 		this.score1.render( svg, this.player1.score );
 		this.score2.render( svg, this.player2.score );
 		
-		if( this.ball.goalScored === true) {
+		if( this.ball.goalScored && this.ball.wonGame === "" ) {
 			this.goal.render( svg, 'GOAL!', this.ball );
+		}
+
+		if( this.ball.wonGame === "player1" ){
+			this.gameOver.render( svg, 'Player 1 Wins!', this.ball );
+
+		}
+		else if ( this.ball.wonGame === "player2" ) {
+			this.gameOver.render( svg, 'Player 2 Wins!', this.ball );
 		}
 		
 

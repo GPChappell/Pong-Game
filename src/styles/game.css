@@ -89,7 +89,7 @@ h1 {
 #goal  {
   animation-name: burst-fade;
   animation-duration: 1.25s; 
-  animation-timing-function: ease-in-out; 
+  animation-timing-function: ease-out; 
   animation-delay: 0;
   animation-direction: normal;
   animation-play-state: running;

@@ -10,6 +10,7 @@ export default class Ball {
     this.direction = 1;
     this.goalScored = false;
     this.numberOfPaddleHits = 0;
+    this.wonGame = "";
     this.ping = new Audio('public/sounds/pong-01.wav');
     this.ping2 = new Audio('public/sounds/pong-02.wav');
     this.ping3 = new Audio('public/sounds/pong-03.wav');
@@ -49,6 +50,10 @@ export default class Ball {
 
   goal( player ) {
     player.score++;
+
+    if( player.score === 5 ) {
+      this.wonGame = player.player;
+    }
     this.goalScored = true;
   }
 
