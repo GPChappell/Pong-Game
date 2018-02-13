@@ -4,15 +4,12 @@ import Text from './Text';
 
 export default class Ball {
 
-  constructor(radius, boardWidth, boardHeight, player1, player2/*, x, y*/) {
+  constructor(radius, boardWidth, boardHeight, player1, player2) {
     this.radius = radius;
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
-    // this.x = x; //Will use this later to spawn ball in specific location.
-    // this.y = y;
     this.served = false;
     this.direction = 1;
-    // this.reset( player1, player2 );
     this.goalScored = false;
     this.ping = new Audio('public/sounds/pong-01.wav');
     this.ping2 = new Audio('public/sounds/pong-02.wav');
@@ -68,7 +65,6 @@ export default class Ball {
       }
       else if ( hitLeft || hitRight ){
         this.ping4.play();
-        // this.vx = -this.vx;
       }
   }
 
